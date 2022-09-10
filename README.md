@@ -1,4 +1,4 @@
-# Bamboo BI Shop
+# Bamboo BI Shop by Xanlee
 
 Bamboo BI Lannding page using nextjs, storybook and tailwindcss
 
