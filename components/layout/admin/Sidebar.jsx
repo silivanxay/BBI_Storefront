@@ -12,7 +12,7 @@ const Sidebar = () => {
         <div className="h-full p-3 space-y-2 w-60 dark:bg-gray-900 dark:text-gray-100 text-white">
           <div className="flex items-center p-2 space-x-4">
             <img
-              src="images/face.jpgJ"
+              src="images/face.jpg"
               alt=""
               className="w-12 h-12 rounded-full dark:bg-gray-500"
             />
