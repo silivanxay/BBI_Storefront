@@ -1,10 +1,10 @@
 import React from "react";
-import Sidebar from "./Sidebar";
+import Layout from "../../components/layout/admin/index";
 
 const index = () => {
   return (
     <>
-      <Sidebar />
+      <Layout />
     </>
   );
 };
