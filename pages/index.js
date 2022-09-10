@@ -7,7 +7,6 @@ export default function index(props) {
   return (
     <div>
       <Article {...props} />
-      <h1>hello</h1>
     </div>
   );
 }
