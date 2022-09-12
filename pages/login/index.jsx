@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import LayoutUser from "../../components/layouts/users";
 import { handleLogin } from "./api";
 
@@ -13,10 +12,7 @@ const Login = () => {
   const [user, setUser] = useState(initialState);
 
   const handleChange = (e) => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value,
-    });
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
@@ -26,19 +22,19 @@ const Login = () => {
     } else if (user.password === "") {
       toast.error("Password can’t be blank");
     } else {
+      const { NEXT_PUBLIC_TOKEN_ACCESS, NEXT_PUBLIC_TOKEN_REFRESH } =
+        process.env;
       handleLogin(user)
         .then((res) => {
-          sessionStorage.setItem(
-            process.env.NEXT_PUBLIC_TOKEN_ACCESS,
-            res.data.access
-          );
-          sessionStorage.setItem(
-            process.env.NEXT_PUBLIC_TOKEN_REFRESH,
-            res.data.refresh
-          );
+          if (res.data.stattus === "error") {
+            toast.error(res.data.message);
+            return null;
+          }
+
+          sessionStorage.setItem(NEXT_PUBLIC_TOKEN_ACCESS, res.data.access);
+          sessionStorage.setItem(NEXT_PUBLIC_TOKEN_REFRESH, res.data.refresh);
         })
         .catch((err) => {
-          // toast.error("cannot connect api");
           console.log(err);
         });
     }

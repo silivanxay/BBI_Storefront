@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { setNewProduct } from "./API/productApi";
 import { NumericFormat } from "react-number-format";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { Listbox } from "@headlessui/react";
+import { toast } from "react-toastify";
 
-const initialState = ["title", "price", "subitle", "dessiption"];
+// import { Listbox } from "@headlessui/react";
 
-const language = [
-  { id: 1, name: "English", unavailable: false },
-  { id: 2, name: "Lao", unavailable: false },
-];
+const initialState = { title: "", price: "", subitle: "", dessiption: "" };
+
+// const language = [
+//   { id: 1, name: "English", unavailable: false },
+//   { id: 2, name: "Lao", unavailable: false },
+// ];
 
 const AddProduct = () => {
   const [selectlanguage, setSelectLanguage] = useState(language[0]);
@@ -27,8 +27,8 @@ const AddProduct = () => {
     );
   };
 
-  const handleSubmit = () => {
-    console.log(data);
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (data.title === "") {
       toast.error("Title can’t be blank");
     } else if (data.price === "") {
@@ -53,7 +53,7 @@ const AddProduct = () => {
 
   return (
     <>
-      <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg m-auto text-center py-12 mt-4  ">
+      {/* <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg m-auto text-center py-12 mt-4  ">
         <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">
           Choose a language
         </h1>
@@ -73,14 +73,14 @@ const AddProduct = () => {
             </Listbox.Options>
           </Listbox>
         </div>
-      </div>
+      </div> */}
 
       <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg m-auto text-center py-12 mt-4 ">
         <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">
           Add product
         </h1>
         <div className="container py-5 max-w-md mx-auto">
-          <form method action>
+          <form onSubmit={handleSubmit}>
             <div className="text-left">
               <label for="title" className="text-white ">
                 Title
@@ -198,8 +198,7 @@ const AddProduct = () => {
             <div className="flex items-center justify-between mt-5">
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button"
-                onClick={() => handleSubmit()}
+                type="submit"
               >
                 Save
               </button>
