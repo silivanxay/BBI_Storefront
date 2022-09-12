@@ -15,4 +15,4 @@ and go url: http://localhost:3000/
 ## Run story book
 
     npm run storybook
-and go url: http://localhost:6006/    
+and go url: http://localhost:6006/

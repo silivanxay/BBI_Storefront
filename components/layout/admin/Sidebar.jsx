@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { RiDashboard3Line, RiProductHuntLine } from "react-icons/ri";
 import { GrCatalogOption } from "react-icons/gr";
