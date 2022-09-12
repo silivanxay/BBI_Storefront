@@ -1,17 +1,20 @@
 import React, { useState } from "react";
+import { setNewProduct } from "./API/productApi";
 import { NumericFormat } from "react-number-format";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Listbox } from "@headlessui/react";
 
-const initialState = {
-  title: "",
-  price: "",
-  subitle: "",
-  dessiption: "",
-};
+const initialState = ["title", "price", "subitle", "dessiption"];
 
-const FormInput = () => {
+const language = [
+  { id: 1, name: "English", unavailable: false },
+  { id: 2, name: "Lao", unavailable: false },
+];
+
+const AddProduct = () => {
+  const [selectlanguage, setSelectLanguage] = useState(language[0]);
+
   const [data, setData] = useState(initialState);
 
   const handleChange = (e) => {
@@ -37,19 +40,41 @@ const FormInput = () => {
     } else {
       // toast.success("Success");
       console.log(data);
-      // setNewProduct(data)
-      //   .then((res) => {
-      //     console.log(res.data);
-      //   })
-      //   .catch((err) => {
-      //     toast.error("cannot connect api");
-      //     console.log(err);
-      //   });
+      setNewProduct(data)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          toast.error("cannot connect api");
+          console.log(err);
+        });
     }
   };
 
   return (
     <>
+      <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg m-auto text-center py-12 mt-4  ">
+        <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">
+          Choose a language
+        </h1>
+        <div className="container py-5 max-w-md mx-auto bg-white  rounded-lg mt-2 hover:bg-sky-500">
+          <Listbox value={selectlanguage} onChange={setSelectLanguage}>
+            <Listbox.Button>{selectlanguage.name}</Listbox.Button>
+            <Listbox.Options>
+              {language.map((language) => (
+                <Listbox.Option
+                  key={language.id}
+                  value={language}
+                  disabled={language.unavailable}
+                >
+                  {language.name}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Listbox>
+        </div>
+      </div>
+
       <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg m-auto text-center py-12 mt-4 ">
         <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">
           Add product
@@ -131,7 +156,6 @@ const FormInput = () => {
           </form>
         </div>
       </div>
-
       <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg mx-auto text-center py-12 mt-4 ">
         <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">
           Media
@@ -188,4 +212,4 @@ const FormInput = () => {
   );
 };
 
-export default FormInput;
+export default AddProduct;
