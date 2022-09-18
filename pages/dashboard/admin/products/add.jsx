@@ -1,11 +1,18 @@
 import React, { useState } from "react";
-import { setNewProduct } from "./API/productApi";
+// import { setNewProduct } from "./API/productApi";
 import { NumericFormat } from "react-number-format";
 import { toast } from "react-toastify";
+import AdminLayout from "../../../../components/layouts/admin";
 
 // import { Listbox } from "@headlessui/react";
 
-const initialState = { title: "", price: "", subitle: "", dessiption: "" };
+const initialState = {
+  title: "",
+  price: "",
+  subitle: "",
+  dessiption: "",
+  userId: "1",
+};
 
 // const language = [
 //   { id: 1, name: "English", unavailable: false },
@@ -13,36 +20,47 @@ const initialState = { title: "", price: "", subitle: "", dessiption: "" };
 // ];
 
 const AddProduct = () => {
-  const [selectlanguage, setSelectLanguage] = useState(language[0]);
+  // const [selectlan÷uage, setSelectLanguage] = useState(language[0]);
 
-  const [data, setData] = useState(initialState);
+  const [FormData, setFormData] = useState(initialState);
+  const [file, setFile] = useState(null);
 
   const handleChange = (e) => {
-    setData(
-      {
-        ...data,
-        [e.target.name]: e.target.value,
-      },
-      console.log(data)
-    );
+    setFormData({ ...FormData, [e.target.name]: e.target.value });
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (data.title === "") {
+
+    if (FormData.title === "") {
       toast.error("Title can’t be blank");
-    } else if (data.price === "") {
+    } else if (FormData.price === "") {
       toast.error("Price can’t be blank");
-    } else if (data.subitle === "") {
+    } else if (FormData.subitle === "") {
       toast.error("Subitle can’t be blank");
-    } else if (data.dessiption === "") {
+    } else if (FormData.dessiption === "") {
       toast.error("Dessiption can’t be blank");
     } else {
-      // toast.success("Success");
-      console.log(data);
-      setNewProduct(data)
+      // token = sessionStorage.getItem(process.env.NEXT_PUBLIC_TOKEN_ACCESS);
+
+      // if (!token) {
+      //   toast.error("unauthorize");
+      // }
+      // return;
+      const formFormData = new FormFormData();
+
+      for (const key of Object.keys(FormData)) {
+        formFormData.append(key, FormData[key]);
+      }
+      formFormData.append("image", file);
+
+      AddProduct(formFormData, "token")
         .then((res) => {
-          console.log(res.data);
+          console.log(res.FormData);
         })
         .catch((err) => {
           toast.error("cannot connect api");
@@ -52,8 +70,9 @@ const AddProduct = () => {
   };
 
   return (
-    <>
-      {/* <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg m-auto text-center py-12 mt-4  ">
+    <AdminLayout>
+      <form onSubmit={handleSubmit} enctype="multipart/form-FormData">
+        {/* <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg m-auto text-center py-12 mt-4  ">
         <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">
           Choose a language
         </h1>
@@ -75,12 +94,11 @@ const AddProduct = () => {
         </div>
       </div> */}
 
-      <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg m-auto text-center py-12 mt-4 ">
-        <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">
-          Add product
-        </h1>
-        <div className="container py-5 max-w-md mx-auto">
-          <form onSubmit={handleSubmit}>
+        <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg m-auto text-center py-12 mt-4 ">
+          <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">
+            Add product
+          </h1>
+          <div className="container py-5 max-w-md mx-auto">
             <div className="text-left">
               <label for="title" className="text-white ">
                 Title
@@ -110,8 +128,8 @@ const AddProduct = () => {
                 name="price"
                 thousandSeparator={false}
                 onValueChange={({ value }) => {
-                  setData({
-                    ...data,
+                  setFormData({
+                    ...FormData,
                     price: value,
                   });
                   console.log(value);
@@ -153,15 +171,13 @@ const AddProduct = () => {
                 onChange={(e) => handleChange(e)}
               ></textarea>
             </div>
-          </form>
+          </div>
         </div>
-      </div>
-      <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg mx-auto text-center py-12 mt-4 ">
-        <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">
-          Media
-        </h1>
-        <div className="container py-5 max-w-md mx-auto">
-          <form method action>
+        <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg mx-auto text-center py-12 mt-4 ">
+          <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">
+            Media
+          </h1>
+          <div className="container py-5 max-w-md mx-auto">
             <div class="flex justify-center items-center w-full">
               <label
                 for="dropzone-file"
@@ -191,7 +207,13 @@ const AddProduct = () => {
                     SVG, PNG, JPG or GIF (MAX. 800x400px)
                   </p>
                 </div>
-                <input id="dropzone-file" type="file" class="hidden" />
+                <input
+                  id="dropzone-file"
+                  type="file"
+                  name="image"
+                  class="hidden"
+                  onChange={handleFileChange}
+                />
               </label>
             </div>
 
@@ -203,11 +225,10 @@ const AddProduct = () => {
                 Save
               </button>
             </div>
-          </form>
+          </div>
         </div>
-      </div>
-      <ToastContainer />
-    </>
+      </form>
+    </AdminLayout>
   );
 };
 

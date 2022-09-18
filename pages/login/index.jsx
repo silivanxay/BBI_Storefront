@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import LayoutUser from "../../components/layouts/users";
-import { handleLogin } from "./api";
+import { handleLogin } from "../../Apis/authApi";
 
 const initialState = {
   username: "",
@@ -22,10 +22,11 @@ const Login = () => {
     } else if (user.password === "") {
       toast.error("Password can’t be blank");
     } else {
-      const { NEXT_PUBLIC_TOKEN_ACCESS, NEXT_PUBLIC_TOKEN_REFRESH } =
-        process.env;
       handleLogin(user)
         .then((res) => {
+          const { NEXT_PUBLIC_TOKEN_ACCESS, NEXT_PUBLIC_TOKEN_REFRESH } =
+            process.env;
+
           if (res.data.stattus === "error") {
             toast.error(res.data.message);
             return null;
@@ -48,7 +49,11 @@ const Login = () => {
             <h1 className="text-3xl font-semibold text-center text-yellow-700">
               LOGO
             </h1>
-            <form className="mt-6" onSubmit={handleSubmit}>
+            <form
+              className="mt-6"
+              onSubmit={handleSubmit}
+              enctype="multipart/form-data"
+            >
               <div>
                 <label htmlFor="text" className="block text-sm text-gray-800">
                   Username
