@@ -1,46 +1,65 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { setNewProduct } from "./API/productApi";
+// import { setNewProduct } from "./API/productApi";
 import { NumericFormat } from "react-number-format";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { Listbox } from "@headlessui/react";
+import { toast } from "react-toastify";
+import AdminLayout from "../../../../components/layouts/admin";
 
-const initialState = ["title", "price", "subitle", "dessiption"];
 
-const language = [
-  { id: 1, name: "English", unavailable: false },
-  { id: 2, name: "Lao", unavailable: false },
-];
+const initialState = {
+  price: "11111",
+  translations: { en: { title: "Nike Shoe", description: "Air Force" } },
+  user: 1,
+};
 
 const AddProduct = () => {
-  const [selectlanguage, setSelectLanguage] = useState(language[0]);
 
-  const [data, setData] = useState(initialState);
+  const [formData, setFormData] = useState(initialState);
+  const [tran, setTran] = useState({
+    en: { title: "Nike Shoe", description: "Air Force" },
+  });
+  const [file, setFile] = useState(null);
 
   const handleChange = (e) => {
-    setData(
-      {
-        ...data,
-        [e.target.name]: e.target.value,
-      },
-      console.log(data)
-    );
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    console.log(data);
-    if (data.title === "") {
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const AddNewProduct = (product) => {
+    return axios.post("http://localhost:8000/api/v1/product/", product);
+  };
+
+  const translate = { en: { title: "Nike Shoe", description: "Air Force" } };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (formData.title === "") {
       toast.error("Title can’t be blank");
-    } else if (data.price === "") {
+    } else if (formData.price === "") {
       toast.error("Price can’t be blank");
-    } else if (data.subitle === "") {
+    } else if (formData.subitle === "") {
       toast.error("Subitle can’t be blank");
-    } else if (data.dessiption === "") {
+    } else if (formData.dessiption === "") {
       toast.error("Dessiption can’t be blank");
     } else {
-      // toast.success("Success");
-      console.log(data);
-      setNewProduct(data)
+      // token = sessionStorage.getItem(process.env.NEXT_PUBLIC_TOKEN_ACCESS);
+
+      // if (!token) {
+      //   toast.error("unauthorize");
+      // }
+      // return;
+      // const formFormData = new FormData();
+
+      // for (const key of Object.keys(formData)) {
+      //   formFormData.append(key, formData[key]);
+      // }
+
+      // formFormData.append("image", file);
+
+      AddNewProduct(formData, "token")
         .then((res) => {
           console.log(res.data);
         })
@@ -53,34 +72,12 @@ const AddProduct = () => {
 
   return (
     <>
-      <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg m-auto text-center py-12 mt-4  ">
-        <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">
-          Choose a language
-        </h1>
-        <div className="container py-5 max-w-md mx-auto bg-white  rounded-lg mt-2 hover:bg-sky-500">
-          <Listbox value={selectlanguage} onChange={setSelectLanguage}>
-            <Listbox.Button>{selectlanguage.name}</Listbox.Button>
-            <Listbox.Options>
-              {language.map((language) => (
-                <Listbox.Option
-                  key={language.id}
-                  value={language}
-                  disabled={language.unavailable}
-                >
-                  {language.name}
-                </Listbox.Option>
-              ))}
-            </Listbox.Options>
-          </Listbox>
-        </div>
-      </div>
-
-      <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg m-auto text-center py-12 mt-4 ">
-        <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">
-          Add product
-        </h1>
-        <div className="container py-5 max-w-md mx-auto">
-          <form method action>
+      <form onSubmit={handleSubmit} encType="multipart/form-FormData">
+        <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg m-auto text-center py-12 mt-4 ">
+          <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">
+            Add product
+          </h1>
+          <div className="container py-5 max-w-md mx-auto">
             <div className="text-left">
               <label for="title" className="text-white ">
                 Title
@@ -108,10 +105,11 @@ const AddProduct = () => {
                 className="shadow appearance-none  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="title"
                 name="price"
+                defaultValue={formData.price}
                 thousandSeparator={false}
                 onValueChange={({ value }) => {
-                  setData({
-                    ...data,
+                  setFormData({
+                    ...formData,
                     price: value,
                   });
                   console.log(value);
@@ -153,15 +151,13 @@ const AddProduct = () => {
                 onChange={(e) => handleChange(e)}
               ></textarea>
             </div>
-          </form>
+          </div>
         </div>
-      </div>
-      <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg mx-auto text-center py-12 mt-4 ">
-        <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">
-          Media
-        </h1>
-        <div className="container py-5 max-w-md mx-auto">
-          <form method action>
+        <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg mx-auto text-center py-12 mt-4 ">
+          <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">
+            Media
+          </h1>
+          <div className="container py-5 max-w-md mx-auto">
             <div class="flex justify-center items-center w-full">
               <label
                 for="dropzone-file"
@@ -179,7 +175,7 @@ const AddProduct = () => {
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeWdth="2"
                       d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                     ></path>
                   </svg>
@@ -191,25 +187,33 @@ const AddProduct = () => {
                     SVG, PNG, JPG or GIF (MAX. 800x400px)
                   </p>
                 </div>
-                <input id="dropzone-file" type="file" class="hidden" />
+                <input
+                  id="dropzone-file"
+                  type="file"
+                  name="image"
+                  class="hidden"
+                  onChange={handleFileChange}
+                />
               </label>
             </div>
 
             <div className="flex items-center justify-between mt-5">
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button"
-                onClick={() => handleSubmit()}
+                type="submit"
               >
                 Save
               </button>
             </div>
-          </form>
+          </div>
         </div>
-      </div>
-      <ToastContainer />
+      </form>
     </>
   );
 };
 
 export default AddProduct;
+
+AddProduct.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};
