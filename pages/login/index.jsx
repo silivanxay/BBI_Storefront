@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import LayoutUser from "../../components/layouts/users";
 import { handleLogin } from "../../Apis/authApi";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import apiAxios from "../../ultilities/axios";
+import { useSelector, useDispatch } from "react-redux";
+import { login, logout } from "../../store/services/auth";
 
 const initialState = {
   username: "",
@@ -10,9 +15,24 @@ const initialState = {
 
 const Login = () => {
   const [user, setUser] = useState(initialState);
-
+  const router = useRouter();
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  useEffect(() => {
+    // getUser();
+  }, []);
+
+  const getUser = async () => {
+    return await apiAxios
+      .get("/users")
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error.respone.data);
+      });
   };
 
   const handleSubmit = (e) => {
@@ -22,24 +42,29 @@ const Login = () => {
     } else if (user.password === "") {
       toast.error("Password can’t be blank");
     } else {
-      handleLogin(user)
-        .then((res) => {
-          const { NEXT_PUBLIC_TOKEN_ACCESS, NEXT_PUBLIC_TOKEN_REFRESH } =
-            process.env;
-
-          if (res.data.stattus === "error") {
-            toast.error(res.data.message);
-            return null;
-          }
-
-          sessionStorage.setItem(NEXT_PUBLIC_TOKEN_ACCESS, res.data.access);
-          sessionStorage.setItem(NEXT_PUBLIC_TOKEN_REFRESH, res.data.refresh);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      //   handleLogin(user)
+      //     .then((res) => {
+      //       const { NEXT_PUBLIC_TOKEN_ACCESS, NEXT_PUBLIC_TOKEN_REFRESH } =
+      //         process.env;
+      //       if (res.data.stattus === "error") {
+      //         toast.error(res.data.message);
+      //         return null;
+      //       }
+      //       sessionStorage.setItem(NEXT_PUBLIC_TOKEN_ACCESS, res.data.access);
+      //       sessionStorage.setItem(NEXT_PUBLIC_TOKEN_REFRESH, res.data.refresh);
+      //     })
+      //     .catch((err) => {
+      //       console.log(err);
+      //     });
+      Cookies.set("loggedin", "true");
+      router.push("/admin");
     }
   };
+  const auth = useSelector((state) => ({
+    ...state,
+  }));
+
+  const dispatch = useDispatch();
 
   return (
     <LayoutUser>
@@ -49,10 +74,33 @@ const Login = () => {
             <h1 className="text-3xl font-semibold text-center text-yellow-700">
               LOGO
             </h1>
+
+            <button
+              aria-label="login value"
+              onClick={() =>
+                dispatch(
+                  login({
+                    username: "aa",
+                    password: "1234",
+                    token: "",
+                  })
+                )
+              }
+            >
+              login
+            </button>
+            <span>{auth && JSON.stringify(auth)}</span>
+            <button
+              aria-label="logout value"
+              onClick={() => dispatch(logout())}
+            >
+              logout
+            </button>
+
             <form
               className="mt-6"
               onSubmit={handleSubmit}
-              enctype="multipart/form-data"
+              encType="multipart/form-data"
             >
               <div>
                 <label htmlFor="text" className="block text-sm text-gray-800">

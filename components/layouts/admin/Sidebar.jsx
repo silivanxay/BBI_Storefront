@@ -2,8 +2,12 @@ import React from "react";
 import { RiDashboard3Line, RiProductHuntLine } from "react-icons/ri";
 import { GrCatalogOption } from "react-icons/gr";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
+  const auth = useSelector((state) => ({
+    ...state,
+  }));
   return (
     <>
       <div
@@ -18,7 +22,9 @@ const Sidebar = () => {
               className="w-12 h-12 rounded-full dark:bg-gray-500"
             />
             <div>
-              <h2 className="text-xs font-semibold">Thavisouk</h2>
+              <h2 className="text-xs font-semibold">
+                {auth && JSON.stringify(auth)}
+              </h2>
               <span className="flex items-center space-x-1">
                 <a
                   rel="noopener noreferrer"

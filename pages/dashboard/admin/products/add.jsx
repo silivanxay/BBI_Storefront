@@ -1,48 +1,48 @@
+import axios from "axios";
 import React, { useState } from "react";
 // import { setNewProduct } from "./API/productApi";
 import { NumericFormat } from "react-number-format";
 import { toast } from "react-toastify";
 import AdminLayout from "../../../../components/layouts/admin";
 
-// import { Listbox } from "@headlessui/react";
 
 const initialState = {
-  title: "",
-  price: "",
-  subitle: "",
-  dessiption: "",
-  userId: "1",
+  price: "11111",
+  translations: { en: { title: "Nike Shoe", description: "Air Force" } },
+  user: 1,
 };
 
-// const language = [
-//   { id: 1, name: "English", unavailable: false },
-//   { id: 2, name: "Lao", unavailable: false },
-// ];
-
 const AddProduct = () => {
-  // const [selectlan÷uage, setSelectLanguage] = useState(language[0]);
 
-  const [FormData, setFormData] = useState(initialState);
+  const [formData, setFormData] = useState(initialState);
+  const [tran, setTran] = useState({
+    en: { title: "Nike Shoe", description: "Air Force" },
+  });
   const [file, setFile] = useState(null);
 
   const handleChange = (e) => {
-    setFormData({ ...FormData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
+  const AddNewProduct = (product) => {
+    return axios.post("http://localhost:8000/api/v1/product/", product);
+  };
+
+  const translate = { en: { title: "Nike Shoe", description: "Air Force" } };
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (FormData.title === "") {
+    if (formData.title === "") {
       toast.error("Title can’t be blank");
-    } else if (FormData.price === "") {
+    } else if (formData.price === "") {
       toast.error("Price can’t be blank");
-    } else if (FormData.subitle === "") {
+    } else if (formData.subitle === "") {
       toast.error("Subitle can’t be blank");
-    } else if (FormData.dessiption === "") {
+    } else if (formData.dessiption === "") {
       toast.error("Dessiption can’t be blank");
     } else {
       // token = sessionStorage.getItem(process.env.NEXT_PUBLIC_TOKEN_ACCESS);
@@ -51,16 +51,17 @@ const AddProduct = () => {
       //   toast.error("unauthorize");
       // }
       // return;
-      const formFormData = new FormFormData();
+      // const formFormData = new FormData();
 
-      for (const key of Object.keys(FormData)) {
-        formFormData.append(key, FormData[key]);
-      }
-      formFormData.append("image", file);
+      // for (const key of Object.keys(formData)) {
+      //   formFormData.append(key, formData[key]);
+      // }
 
-      AddProduct(formFormData, "token")
+      // formFormData.append("image", file);
+
+      AddNewProduct(formData, "token")
         .then((res) => {
-          console.log(res.FormData);
+          console.log(res.data);
         })
         .catch((err) => {
           toast.error("cannot connect api");
@@ -70,30 +71,8 @@ const AddProduct = () => {
   };
 
   return (
-    <AdminLayout>
-      <form onSubmit={handleSubmit} enctype="multipart/form-FormData">
-        {/* <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg m-auto text-center py-12 mt-4  ">
-        <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">
-          Choose a language
-        </h1>
-        <div className="container py-5 max-w-md mx-auto bg-white  rounded-lg mt-2 hover:bg-sky-500">
-          <Listbox value={selectlanguage} onChange={setSelectLanguage}>
-            <Listbox.Button>{selectlanguage.name}</Listbox.Button>
-            <Listbox.Options>
-              {language.map((language) => (
-                <Listbox.Option
-                  key={language.id}
-                  value={language}
-                  disabled={language.unavailable}
-                >
-                  {language.name}
-                </Listbox.Option>
-              ))}
-            </Listbox.Options>
-          </Listbox>
-        </div>
-      </div> */}
-
+    <>
+      <form onSubmit={handleSubmit} encType="multipart/form-FormData">
         <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg m-auto text-center py-12 mt-4 ">
           <h1 className="text-gray-200 text-center font-extrabold -mt-3 text-3xl">
             Add product
@@ -126,10 +105,11 @@ const AddProduct = () => {
                 className="shadow appearance-none  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="title"
                 name="price"
+                defaultValue={formData.price}
                 thousandSeparator={false}
                 onValueChange={({ value }) => {
                   setFormData({
-                    ...FormData,
+                    ...formData,
                     price: value,
                   });
                   console.log(value);
@@ -195,7 +175,7 @@ const AddProduct = () => {
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeWdth="2"
                       d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                     ></path>
                   </svg>
@@ -228,8 +208,12 @@ const AddProduct = () => {
           </div>
         </div>
       </form>
-    </AdminLayout>
+    </>
   );
 };
 
 export default AddProduct;
+
+AddProduct.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};
