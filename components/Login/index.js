@@ -1,6 +1,6 @@
 import React from "react";
 import { useRef } from 'react';
-import { getAxios } from "../../.storybook/preview";
+import { getAxios } from '../../utils/get-axios'
 
 export default function index({ url, method}) {
   const form = useRef(null);
@@ -8,10 +8,7 @@ export default function index({ url, method}) {
     
     e.preventDefault()
     const formData = new FormData(form.current)
-    console.log(formData)
-    
     const result = getAxios()[method](url, formData);
-    console.log(result)
   };
 
   return (

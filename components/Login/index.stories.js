@@ -1,5 +1,4 @@
 import Login from '../Login'
-import { getAxios } from '../../.storybook/preview';
 
 const loginMock = {
 

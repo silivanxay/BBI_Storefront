@@ -1,6 +1,6 @@
 // Import the global style enabling tailwind classes
 import '../styles/globals.css'
-import axios from 'axios';
+import { getAxios } from '../utils/get-axios';
 import withAxiosDecorator from 'storybook-axios';
 
 
@@ -9,6 +9,4 @@ export const parameters = {
 }
 
 
-const instance = axios.create();
-export const getAxios = () => instance;
 export const decorators = [withAxiosDecorator(getAxios())];
