@@ -1,18 +1,25 @@
 import Article from "../components/Article";
-import { getAPI } from "../components/Article/util";
+import  getAPI  from "../components/Article/util";
+import { handle, json } from 'next-runtime';
 
-import React from "react";
+export const getServerSideProps = handle({
 
-export default function index(props) {
+  async get({ params, query }) {
+    return getAPI();
+  },
+
+  async post({ req: { body } }) {
+    return json();
+  },
+});
+
+export default function Home(props) {
+
   return (
-    <div>
-      <Article {...props} />
-    </div>
+    <Article {...props} />
   );
 }
 
 Article.defaultProps = {
   showImage: true,
 };
-
-export const getServerSideProps = getAPI

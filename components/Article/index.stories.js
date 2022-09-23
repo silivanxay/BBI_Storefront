@@ -1,11 +1,12 @@
-import Article from '../components/Article';
+import Article from '.'
+import { getAxios } from '../../.storybook/preview';
 
 const articleMock = {
   id: 3,
   author: 'Dr SIlivanxay Phetsouvanh',
   company: 'Bamboo BI',
   image_url: 'https://bamboobi.la/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbamboobi.3fededfc.webp&w=256&q=75',
-  content: 'Dr SIlivanxay Phetsouvanh born October 5, 1992 is a SaaS expert'
+  content: 'Dr Silivanxay Phetsouvanh born October 5, 1992 is a SaaS expert'
 }
 
 const Story = (props) => <Article {...props} />

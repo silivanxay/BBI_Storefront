@@ -1,6 +1,9 @@
-export const getAPI = async () => {
-    const response = await fetch("http://localhost:3000/api/article");
-    const data = await response.json();
+import axios from 'axios';
+
+
+export default async function getAPI() {
+  const response = await axios.get("http://localhost:3000/api/article");
+    const data = await response.data;
   
     if (!data) return { props: {} };
   
@@ -10,3 +13,4 @@ export const getAPI = async () => {
       },
     };
   };
+
