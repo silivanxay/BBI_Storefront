@@ -7,32 +7,33 @@ import { toast } from "react-toastify";
 import AdminLayout from "../../../../components/layouts/admin";
 // import UploadPro from "./API/productApi"
 
-const transModel = {
-  title:"",
-  description:"",
-};
-console.log(transModel)
-
-const LanguageModel = {
-  language:"la",
-}
-
-const translations = {};
-translations[LanguageModel.language] = transModel;
-
-const initialState = {
-  // price: "100000",
-  // slug:"vansss",
-  // translations: translations,
-  // user: 1,
-  ...translations
-};
-
 const AddProduct = () => {
+
+  const transModel = {
+    title: "asas",
+    description: "asas",
+  };
+  console.log(transModel);
+
+  const LanguageModel = {
+    language: "la",
+  };
+
+  const translations = {};
+  translations[LanguageModel.language] = transModel;
+
+  const initialState = {
+    // price: "",
+    // slug:"vansss",
+    // translations: translations,
+    // user: 1,
+    ...translations,
+  };
+  
 
   const upload = JSON.stringify(initialState);
 
-  const [trans, setTrans] = useState(transModel)
+  const [trans, setTrans] = useState(transModel);
 
   const [language, setLanguage] = useState(LanguageModel);
 
@@ -44,38 +45,33 @@ const AddProduct = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleChangeTrans = (e) =>{
-    setTrans({...trans, [e.target.name]: e.target.value })
+  const handleChangeTrans = (e) => {
+    setTrans({ ...trans, [e.target.name]: e.target.value });
     // console.log(trans)
-  }
+  };
 
   const handleChangeLanguage = (e) => {
     setLanguage({ ...language, [e.target.name]: e.target.value });
+    console.log(language);
   };
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
+  const onFileChange = (e) => setImage(e.target.files[0]);
 
   const AddNewProduct = () => {
-    // const tran = "{\"en\":{\"title\":\"NikeShoe\",\"description\":\"AirForce\"}}";
-    const trans1 = {
-      en: {
-        title: "TC",
-        description: "UN",
-      },
-    };
 
-    
     const sentdata = {
       translations: upload,
       // translations:"{\"en\":{\"title\":\"NikeShoe\",\"description\":\"AirForce\"}}",
-      slug: "asdfghjkl",
+      slug: "azaxacava",
       price: "010101",
       audience: "Public",
       user: 1,
-    }
-    console.log (sentdata)
+      image:image,
+    };
+    console.log(sentdata);
 
     return axios({
       method: "post",
@@ -84,8 +80,6 @@ const AddProduct = () => {
       headers: { "Content-Type": "multipart/form-data" },
     });
   };
-
-  const onFileChange = (e) => setImage(e.target.files[0]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -136,25 +130,33 @@ const AddProduct = () => {
           <div className="container py-5 max-w-md mx-auto flex flex-col-2 justify-center">
             <div className="bg-gray-200 text-lg  p-1 rounded-md">
               <input
-              id="en"
-                type="radio"
-                name="language"
-                value="en"
-                onChange={handleChangeLanguage}
-                className="peer hidden"
-              />
-              <label htmlFor="en" className="block cursor-pointer select-none rounded-xl p-3 text-center peer-checked:bg-blue-500 peer-checked:font-bold peer-checked:text-white">English</label>
-            </div>
-            <div className="bg-gray-200 ml-5 text-lg p-1 rounded-md">
-            <input
+                id="en"
                 type="radio"
                 name="language"
                 value="la"
+                onChange={handleChangeLanguage}
+                className="peer hidden"
+              />
+              <label
+                htmlFor="en"
+                className="block cursor-pointer select-none rounded-xl p-3 text-center peer-checked:bg-blue-500 peer-checked:font-bold peer-checked:text-white">
+                English
+              </label>
+            </div>
+            <div className="bg-gray-200 ml-5 text-lg p-1 rounded-md">
+              <input
+                type="radio"
+                name="language"
+                value="en"
                 className="peer hidden"
                 id="la"
                 onChange={handleChangeLanguage}
               />{" "}
-                 <label htmlFor="la" className="block cursor-pointer select-none rounded-xl p-3 text-center peer-checked:bg-blue-500 peer-checked:font-bold peer-checked:text-white">Lao</label>
+              <label
+                htmlFor="la"
+                className="block cursor-pointer select-none rounded-xl p-3 text-center peer-checked:bg-blue-500 peer-checked:font-bold peer-checked:text-white">
+                Lao
+              </label>
             </div>
           </div>
         </div>
@@ -236,7 +238,7 @@ const AddProduct = () => {
             </div>
             <div className="text-left">
               <label htmlFor="description" className="text-white ">
-              Description
+                Description
               </label>
             </div>
             <div className="mb-6">
@@ -261,7 +263,10 @@ const AddProduct = () => {
           </h1>
           <div className="container py-5 max-w-md mx-auto">
             <div className="text-left">
-              <label className="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-300 " htmlFor="image">
+              <label
+                className="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-300 "
+                htmlFor="image"
+              >
                 Image
               </label>
             </div>
@@ -288,8 +293,6 @@ const AddProduct = () => {
     </>
   );
 };
-
-
 
 export default AddProduct;
 
