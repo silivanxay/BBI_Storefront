@@ -11,6 +11,7 @@ const transModel = {
   title:"",
   description:"",
 };
+console.log(transModel)
 
 const LanguageModel = {
   language:"la",
@@ -45,6 +46,7 @@ const AddProduct = () => {
 
   const handleChangeTrans = (e) =>{
     setTrans({...trans, [e.target.name]: e.target.value })
+    // console.log(trans)
   }
 
   const handleChangeLanguage = (e) => {
