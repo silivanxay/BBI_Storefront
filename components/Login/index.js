@@ -1,6 +1,7 @@
 import React from "react";
 import { useRef } from 'react';
-import { getAxios } from '../../utils/get-axios'
+import getAxios from '../../utils/get-axios'
+
 
 export default function index({ url, method}) {
   const form = useRef(null);
