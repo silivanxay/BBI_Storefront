@@ -8,14 +8,12 @@ import {
   decrementCounter,
 } from "../redux/actions/conterActions";
 
-import Navbar from "../components/NavBar";
 import bodyParser from "body-parser";
 import { promisify } from "util";
 
 const Home = (props) => {
   return (
     <div>
-      <Navbar />
       <div style={{ textAlign: "center" }}>
         <h1>Counter : {props.counter}</h1>
         <button onClick={props.incrementCounter}>+ Count up</button> &nbsp;
