@@ -15,4 +15,5 @@ Article.defaultProps = {
   showImage: true,
 };
 
+
 export const getServerSideProps = getAPI

@@ -1,4 +1,7 @@
+const colors = require("tailwindcss/colors");
+
 module.exports = {
+  mode: "jit",
   purge: [
     // This is not present inside the default configuration
     // but it's good to build your production application
@@ -6,13 +9,24 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./elements/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@vechaiui/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: false,
+  darkMode: "class",
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        orange: colors.orange,
+      },
+    },
   },
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require("@tailwindcss/forms"),
+    require("@vechaiui/core")({
+      colors: ["orange"],
+      cssBase: true,
+    }),
+  ],
 };
