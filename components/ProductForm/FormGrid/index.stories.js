@@ -11,10 +11,6 @@ export const FormGridStory = Story.bind({})
 FormGridStory.args = {
 };
 
-// Here we export a variant of the default template passing props
-export const EmptyFormGridStory = Story.bind({})
-EmptyFormGridStory.args = {
-};
 
 // Here we export the default component that
 // will be used by Storybook to show it inside the sidebar

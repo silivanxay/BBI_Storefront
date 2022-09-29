@@ -1,4 +1,5 @@
-const Article = ({ article, showImage }) => {
+const Article = ( { article, showImage } ) => {
+
   if (!article) return "The article wasn't found!";
 
   const { author, company, image_url, content } = article;

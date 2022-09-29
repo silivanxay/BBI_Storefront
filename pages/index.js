@@ -1,23 +1,25 @@
 import Article from "../components/Article";
 import getAPI from "../components/Article/util";
 import Login from "../components/Login";
+import {useSelector, useDispatch} from "react-redux";
+import { toggleChangeAction } from "../redux/reducer";
 
-import { connect } from "react-redux";
-import {
-  incrementCounter,
-  decrementCounter,
-} from "../redux/actions/conterActions";
 
 import bodyParser from "body-parser";
 import { promisify } from "util";
 
 const Home = (props) => {
+  const visible = useSelector((state) => state.app.client.toggleForm)
+  const dispatch = useDispatch()
+
+  const onUpdate = () =>{
+    dispatch(toggleChangeAction())
+  }
   return (
     <div>
       <div style={{ textAlign: "center" }}>
-        <h1>Counter : {props.counter}</h1>
-        <button onClick={props.incrementCounter}>+ Count up</button> &nbsp;
-        <button onClick={props.decrementCounter}>+ Count down</button>
+        <h1>Visible : {visible?"on":"off"}</h1>
+        <button onClick={onUpdate}>Toggle</button> &nbsp;
       </div>
       <form method="post" herf="http://shop.localhost:8000/api/v1/login/">
         <input name="name" defaultValue={props.name} />
@@ -35,7 +37,7 @@ Article.defaultProps = {
 };
 
 Login.defaultProps = {
-  url: "http://shop.localhost:8000/api/v1/login/",
+  url: "http://localhost:8000/api/v1/login/",
 };
 
 const getBody = promisify(bodyParser.urlencoded());
@@ -48,18 +50,4 @@ export async function getServerSideProps(context) {
   }
   return getAPI();
 }
-
-// mapStateToProps
-// รับฟังก์ชันจาก store มาใช้งาน
-const mapStateToProps = (state) => ({
-  counter: state.counter.value,
-});
-
-// mapDispatchToProps
-// ส่งค่าไปยัง store เป็น object
-const mapDispatchToProps = {
-  incrementCounter: incrementCounter,
-  decrementCounter: decrementCounter,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;

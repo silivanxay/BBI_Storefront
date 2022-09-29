@@ -1,15 +1,8 @@
-import Login from '../Login'
-
-const loginMock = {
-
-}
-
-const Story = (props) => <Login {...props} />
+import Login from "../Login"
 
 // Here we export a variant of the default template passing props
-export const LoginStory = Story.bind({})
-LoginStory.args = {
-};
+
+export const LoginStory = (args) => <Login method="post"  { ...args }/>;
 
 
 // Here we export the default component that
@@ -18,8 +11,6 @@ export default {
   title: 'Login/Components',
   component: Login,
   argTypes:  {
-    url: { defaultValue: 'http://shop.localhost:8000/api/v1/login/' },
+    url: { defaultValue: 'http://localhost:8000/api/v1/login/' },
   },
 };
-
-export const Post = (args) => <Login method="post" { ...args }/>;

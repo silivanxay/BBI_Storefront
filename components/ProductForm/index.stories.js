@@ -1,8 +1,5 @@
 import ProductForm from '../ProductForm'
 
-const productFormMock = {
-
-}
 
 const Story = (props) => <ProductForm {...props} />
 
@@ -11,10 +8,6 @@ export const ProductFormStory = Story.bind({})
 ProductFormStory.args = {
 };
 
-// Here we export a variant of the default template passing props
-export const EmptyProductFormStory = Story.bind({})
-EmptyProductFormStory.args = {
-};
 
 // Here we export the default component that
 // will be used by Storybook to show it inside the sidebar

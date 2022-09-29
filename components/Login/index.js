@@ -1,15 +1,15 @@
 import React from "react";
 import { useRef } from 'react';
-import getAxios from '../../utils/get-axios'
-
+import postAPI from "./util";
 
 export default function index({ url, method}) {
   const form = useRef(null);
+
   const execRequest = (e) => {
     
-    e.preventDefault()
-    const formData = new FormData(form.current)
-    const result = getAxios()[method](url, formData);
+    e.preventDefault();
+    const formData = new FormData(form.current);
+    const result = postAPI(method, url, formData);
   };
 
   return (
