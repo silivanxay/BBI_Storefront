@@ -1,12 +1,15 @@
 module.exports = {
     "stories": [
       // Paths to the story files
-      "../components/**/*.stories.mdx",
-      "../components/**/*.stories.js",
+      "../components/**/*.stories.@(js|jsx|mdx)",
+      "../layouts/**/*.stories.@(js|jsx|mdx)",
     ],
     "addons": [
       "@storybook/addon-links",
       "@storybook/addon-essentials",
+      "@storybook/addon-docs",
+      'storybook-addon-jsx',      
       'storybook-axios', 
-    ]
+    ],
+    staticDirs: ['../public'],
   }

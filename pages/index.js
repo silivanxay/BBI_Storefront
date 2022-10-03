@@ -3,10 +3,11 @@ import getAPI from "../components/Article/util";
 import Login from "../components/Login";
 import {useSelector, useDispatch} from "react-redux";
 import { toggleChangeAction } from "../redux/reducer";
-
+import Navbar from "../layouts/NavBar/"
 
 import bodyParser from "body-parser";
 import { promisify } from "util";
+
 
 const Home = (props) => {
   const visible = useSelector((state) => state.app.client.toggleForm)
@@ -16,19 +17,21 @@ const Home = (props) => {
     dispatch(toggleChangeAction())
   }
   return (
-    <div>
-      <div style={{ textAlign: "center" }}>
-        <h1>Visible : {visible?"on":"off"}</h1>
-        <button onClick={onUpdate}>Toggle</button> &nbsp;
-      </div>
-      <form method="post" herf="http://shop.localhost:8000/api/v1/login/">
-        <input name="name" defaultValue={props.name} />
-        <button type="submit">submit</button>
-      </form>
-      <p>{props.message}</p>
-      <Article {...props} />
-      <Login method="post" {...props} />
-    </div>
+    <>
+      <Navbar>
+        {/* <div style={{ textAlign: "center" }}>
+          <h1>Visible : {visible?"on":"off"}</h1>
+          <button onClick={onUpdate}>Toggle</button> &nbsp;
+        </div>
+        <form method="post" herf="http://shop.localhost:8000/api/v1/login/">
+          <input name="name" defaultValue={props.name} />
+          <button type="submit">submit</button>
+        </form>
+        <p>{props.message}</p>
+        <Article {...props} />
+        <Login method="post" {...props} /> */}
+      </Navbar>
+    </>
   );
 };
 
@@ -51,3 +54,5 @@ export async function getServerSideProps(context) {
   return getAPI();
 }
 export default Home;
+
+
