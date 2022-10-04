@@ -23,7 +23,14 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head />
+        <Head>
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="assets/logos/bamboobi.webp"
+          />
+        </Head>
         <Background>
           <Main />
           <NextScript />

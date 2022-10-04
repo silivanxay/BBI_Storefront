@@ -11,9 +11,9 @@ const useProviderValue = (initialState) => {
     };
   };
 
-export const Story = (args) => <Navbar {...args} />;
+export const NavbarStory = (args) => <Navbar {...args} />;
 
-Story.parameters = {
+NavbarStory.parameters = {
     reactContext: {
         useProviderValue,
     },
@@ -21,7 +21,7 @@ Story.parameters = {
 
 
 export default {
-  title: "NavBar",
+  title: "NavBar/Components",
   component: Navbar,
   decorators: [
     withReactContext({
