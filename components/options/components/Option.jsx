@@ -8,23 +8,14 @@ import { useRef } from "react";
 import { getAxios } from "../../../utils/get-axios.js";
 
 const initialStates = {
-  display: false,
+  display: true,
 };
-
 
 const name = [
   { id: 1, name: "Size" },
   { id: 2, name: "Color" },
   { id: 3, name: "Material" },
   { id: 4, name: "Style" },
-];
-
-const type = [
-  { id: 1, name: "Boolean" },
-  { id: 2, name: "Text" },
-  { id: 3, name: "Integer" },
-  { id: 4, name: "Float" },
-  { id: 5, name: "Date" },
 ];
 
 export default function Option({ url, method }) {
@@ -39,16 +30,11 @@ export default function Option({ url, method }) {
     console.log(result);
   };
 
-
   const [display, setDisplay] = useState(initialStates);
 
   const [selected, setSelected] = useState(name[0]);
 
-  const [select, setSelect] = useState(type[0]);
-
   const [query, setQuery] = useState("");
-
-  const [query1, setQuery1] = useState("");
 
   const [allPlayers, setAllPlayers] = useState([{}]);
 
@@ -60,16 +46,6 @@ export default function Option({ url, method }) {
             .toLowerCase()
             .replace(/\s+/g, "")
             .includes(query.toLowerCase().replace(/\s+/g, ""))
-        );
-
-  const filteredtype =
-    query1 === ""
-      ? type
-      : type.filter((person) =>
-          person.type
-            .toLowerCase()
-            .replace(/\s+/g, "")
-            .includes(query1.toLowerCase().replace(/\s+/g, ""))
         );
 
   const handleAddPlayers = () => {
@@ -88,7 +64,6 @@ export default function Option({ url, method }) {
     const values = [...allPlayers];
     const updatedValue = event.target.name;
     values[index][updatedValue] = event.target.value;
-
     setAllPlayers(values);
   };
 
@@ -100,7 +75,7 @@ export default function Option({ url, method }) {
 
   return (
     <>
-      <div className="max-w-lg  bg-gray-900 shadow-2xl rounded-lg m-auto text-center py-12 mt-4">
+      <div className="max-w-lg  bg-gray-200 shadow-2xl rounded-lg m-auto text-center py-12 mt-4">
         <Checkbox
           className="text-white"
           onChange={() => {
@@ -110,7 +85,7 @@ export default function Option({ url, method }) {
         >
           <label
             htmlFor="display"
-            className="text-white text-2xl font-extrabold "
+            className="text-black text-2xl font-extrabold "
           >
             Add Options
           </label>
@@ -130,11 +105,15 @@ export default function Option({ url, method }) {
                     <>
                       <div className="add-player-div">
                         <div className="text-left py-2">
-                          <label htmlFor="name" className="text-white ">
+                          <label htmlFor="name" className="text-black ">
                             Option Name
                           </label>
                         </div>
-                        <Combobox value={selected} onChange={setSelected}>
+                        <Combobox
+                          value={selected}
+                          onChange={setSelected}
+                          controlId="name"
+                        >
                           <div className="mt-1">
                             <div className="w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
                               <Combobox.Input
@@ -172,7 +151,7 @@ export default function Option({ url, method }) {
                                     key={name.id}
                                     value={name}
                                     className={({ active }) =>
-                                      `relative bg-gray-200 cursor-default select-none py-2 pl-10 pr-4 ${
+                                      `relative bg-gray-400 cursor-default rounded-sm border-1 hover:border-collapse select-none py-2 pl-10 pr-4 ${
                                         active
                                           ? "bg-blue-400 text-white"
                                           : "text-black"
@@ -189,67 +168,26 @@ export default function Option({ url, method }) {
                       </div>
 
                       <div className="text-left py-2">
-                        <label htmlFor="name" className="text-white ">
+                        <label htmlFor="type" className="text-black ">
                           Option type
                         </label>
                       </div>
-
-                      <Combobox value={select} onChange={setSelect}>
-                        <div className=" mt-1">
-                          <div className=" w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
-                            <Combobox.Input
-                              name="type"
-                              className=" w-full border-none py-2 text-sm leading-5 text-gray-900 focus:ring-0"
-                              displayValue={(type) => type.name}
-                              red
-                              onChange={(event) =>
-                                setQuery1(event.target.value)
-                              }
-                            />
-                            <Combobox.Button className=" py-2 -mx-7">
-                              <ChevronUpDownIcon
-                                className="h-5 w-5 text-gray-400"
-                                aria-hidden="true"
-                              />
-                            </Combobox.Button>
-                          </div>
-                          <Transition
-                            enter="transition duration-100 ease-out"
-                            enterFrom="transform scale-95 opacity-0"
-                            enterTo="transform scale-100 opacity-100"
-                            leave="transition duration-75 ease-out"
-                            leaveFrom="transform scale-100 opacity-100"
-                            leaveTo="transform scale-95 opacity-0"
-                            afterLeave={() => setQuery1("")}
-                          >
-                            <Combobox.Options className="fixed w-full">
-                              {query1.length > 0 && (
-                                <Combobox.Option
-                                  value={{ id: null, name: query1 }}
-                                ></Combobox.Option>
-                              )}
-                              {filteredtype.map((type) => (
-                                <Combobox.Option
-                                  key={type.id}
-                                  value={type}
-                                  className={({ active }) =>
-                                    ` relative bg-gray-200 cursor-default select-none py-2 pl-10 pr-4 ${
-                                      active
-                                        ? "bg-blue-400 text-white"
-                                        : "text-black"
-                                    }`
-                                  }
-                                >
-                                  {type.name}
-                                </Combobox.Option>
-                              ))}
-                            </Combobox.Options>
-                          </Transition>
-                        </div>
-                      </Combobox>
+                      <div className="py-2">
+                        <select
+                          id="type"
+                          name="type"
+                          className=" rounded-lg hover:border-sky-500 w-full "
+                        >
+                          <option value={"Boolean"}>True / False </option>
+                          <option value={"Text"}>Text</option>
+                          <option value={"Integer"}>Integer</option>
+                          <option value={"Float"}>Float</option>
+                          <option value={"Date"}>Date</option>
+                        </select>
+                      </div>
 
                       <div className="text-left py-3">
-                        <label htmlFor="value" className="text-white ">
+                        <label htmlFor="value" className="text-black ">
                           Option value
                         </label>
                       </div>
@@ -263,9 +201,24 @@ export default function Option({ url, method }) {
                         />
                       </div>
 
-                      <div className="flex items-center justify-between mt-5">
+                      <div className="text-left">
+                        <label htmlFor="value" className="text-black ">
+                          required
+                        </label>
+                      </div>
+
+                      <div className="py-4">
+                        <input
+                          id="required"
+                          name="required"
+                          type="checkbox"
+                          className="flex float-left"
+                        />
+                      </div>
+
+                      <div className="flex items-center justify-between mt-5 py-1">
                         <button
-                          className="bg-blue-500 hover:bg-blue-700 hover:text-black text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                          className="bg-sky-500 hover:bg-sky-700 hover:text-black text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                           type="submit"
                         >
                           Done
@@ -287,7 +240,7 @@ export default function Option({ url, method }) {
               )}
               <div className="flex items-center justify-between mt-5">
                 <button
-                  className="bg-blue-500 hover:bg-blue-700 hover:text-black text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  className="bg-sky-500 hover:bg-sky-700 hover:text-black text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   type="button"
                   onClick={() => handleAddPlayers()}
                 >
