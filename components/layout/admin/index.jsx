@@ -7,10 +7,10 @@ const index = (props) => {
   return (
     <>
       <div className="flex flex-wrap -mx-4 -mb-4 md:mb-0">
-        {/* <div className="w-full md:w-1/3 px-4 mb-4 md:mb-0 fixed top-0 h-screen">
+        <div className="w-full md:w-1/3 px-4 mb-4 md:mb-0 fixed top-0 h-screen">
           <Sidebar />
         </div>
-            */}
+           
 
         <div className="w-full px-4 mb-4 mt-10">
           <Option method="post" {...props} />
