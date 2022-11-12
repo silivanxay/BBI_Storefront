@@ -1,4 +1,4 @@
-import Product from "../components/Product";
+import Product from "../Product";
 
 export const Story = (args) => <Product {...args} />;
 

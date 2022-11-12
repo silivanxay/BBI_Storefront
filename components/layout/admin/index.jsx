@@ -1,7 +1,8 @@
 import React from "react";
 import Sidebar from "./Sidebar";
-import Stock from "../../stock/components/Stocks";
-import Option from "../../options/components/Option";
+import Options from "../../Options"
+import Stock from "../../Stock";
+import AddProduct from "../../Addproduct";
 
 const index = (props) => {
   return (
@@ -10,10 +11,14 @@ const index = (props) => {
         <div className="w-full md:w-1/3 px-4 mb-4 md:mb-0 fixed top-0 h-screen">
           <Sidebar />
         </div>
+
+        <div className="w-full px-4 mb-4 mt-10">
+          <AddProduct method="post" {...props} />
+        </div>
            
 
         <div className="w-full px-4 mb-4 mt-10">
-          <Option method="post" {...props} />
+          <Options method="post" {...props} />
         </div>
 
         <div className="w-full px-4 mb-4 mt-10">
@@ -24,12 +29,16 @@ const index = (props) => {
   );
 };
 
-Option.defaultProps = {
+Options.defaultProps = {
   url: "http://localhost:8000/api/v1/option/",
 };
 
 Stock.defaultProps = {
   url: "http://localhost:8000/api/v1/stock/",
+};
+
+AddProduct.defaultProps = {
+  url: "http://localhost:8000/api/v1/product/",
 };
 
 export default index;
