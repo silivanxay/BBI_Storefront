@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "start-storybook -p 6006",
-    "storybook:build": "build-storybook"
+    "storybook:build": "build-storybook",
+    "test-storybook": "test-storybook"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
@@ -24,10 +25,15 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "^6.5.12",
+    "@storybook/addon-coverage": "^0.0.8",
     "@storybook/addon-docs": "^6.5.12",
     "@storybook/addon-essentials": "^6.5.12",
+    "@storybook/addon-interactions": "^6.5.16",
     "@storybook/addon-links": "^6.5.12",
+    "@storybook/jest": "^0.0.10",
     "@storybook/react": "^6.5.12",
+    "@storybook/test-runner": "^0.9.4",
+    "@storybook/testing-library": "^0.0.13",
     "eslint": "8.23.0",
     "eslint-config-next": "12.2.5",
     "nextjs-cors": "^2.1.1",

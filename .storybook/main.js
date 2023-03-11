@@ -10,6 +10,8 @@ module.exports = {
       "@storybook/addon-docs",
       'storybook-addon-jsx',      
       'storybook-axios', 
+      '@storybook/addon-interactions',
+      '@storybook/addon-coverage',
     ],
     staticDirs: ['../public'],
   }
